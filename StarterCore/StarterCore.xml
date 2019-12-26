@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StarterCore</name>
+    </assembly>
+    <members>
+        <member name="M:StarterCore.Controllers.Authentication.AuthController.Login(StarterCore.Models.AuthLogin)">
+            <summary>
+            
+            </summary>
+            <param name="Model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarterCore.Controllers.Authentication.AuthController.Logout(StarterCore.Models.AuthLogin)">
+            <summary>
+            
+            </summary>
+            <param name="Model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarterCore.Controllers.SysUserController.Login(StarterCore.Models.SysUser)">
+            <summary>
+            Save User with data Post
+            </summary>
+            <remarks>
+            here sampe remark placeholder
+            </remarks>
+            <param name="Model"> </param>
+            <returns> with Output Object</returns>
+        </member>
+        <member name="M:StarterCore.Controllers.SysUserController.Get(System.Int32)">
+            <summary>
+            tatatat asdfsd
+            </summary>
+            <param name="Key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarterCore.Controllers.SysUserController.AAA(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            this api dynamic with parameter like in SP
+            </summary>
+            <param name="Key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarterCore.Helper.Tools.DBConnection(System.String)">
+            <summary>
+            ini utk connection postgress
+            </summary>
+            <param name="ConnectionString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarterCore.Helper.Tools.SqlConnection(System.String)">
+            <summary>
+            Ini utk Connecti SQL
+            </summary>
+            <param name="ConnectionString"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StarterCore.Helper.Tools.MySqlConnection(System.String)">
+            <summary>
+            Connection Mysql
+            </summary>
+            <param name="ConnectionString"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
