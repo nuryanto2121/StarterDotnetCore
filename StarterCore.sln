@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarterCore", "StarterCore\StarterCore.csproj", "{C2E4DA6D-3620-4631-8133-C7B54C75E9A2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncryptLibrary", "EncryptLibrary\EncryptLibrary.csproj", "{DBB0564A-51D0-426E-BB69-56D1893949B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StarterCore", "StarterCore\StarterCore.csproj", "{C2E4DA6D-3620-4631-8133-C7B54C75E9A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{C2E4DA6D-3620-4631-8133-C7B54C75E9A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2E4DA6D-3620-4631-8133-C7B54C75E9A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2E4DA6D-3620-4631-8133-C7B54C75E9A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBB0564A-51D0-426E-BB69-56D1893949B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBB0564A-51D0-426E-BB69-56D1893949B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBB0564A-51D0-426E-BB69-56D1893949B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBB0564A-51D0-426E-BB69-56D1893949B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
