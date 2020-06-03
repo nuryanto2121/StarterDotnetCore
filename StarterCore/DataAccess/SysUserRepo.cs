@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 
 namespace StarterCore.DataAccess
 {
-    public class SysMenuRepo : IRepository<SysMenu, int>
+    public class SysUserRepo : IRepository<SysUser, int>
     {
         private string connectionString;
-        public SysMenuRepo(string ConnectionString)
+        public SysUserRepo(string ConnectionString)
         {
             connectionString = ConnectionString;
         }
@@ -28,22 +28,22 @@ namespace StarterCore.DataAccess
                 switch (function)
                 {
                     case SQL.Function.Aggregate.Max:
-                        sbQuery.AppendFormat("SELECT MAX({0}) FROM public.sys_menu ", column);
+                        sbQuery.AppendFormat("SELECT MAX({0}) FROM public.sys_user ", column);
                         break;
                     case SQL.Function.Aggregate.Min:
-                        sbQuery.AppendFormat("SELECT MIN({0}) FROM public.sys_menu ", column);
+                        sbQuery.AppendFormat("SELECT MIN({0}) FROM public.sys_user ", column);
                         break;
                     case SQL.Function.Aggregate.Distinct:
-                        sbQuery.AppendFormat("SELECT DISTINCT({0}) FROM public.sys_menu ", column);
+                        sbQuery.AppendFormat("SELECT DISTINCT({0}) FROM public.sys_user ", column);
                         break;
                     case SQL.Function.Aggregate.Count:
-                        sbQuery.AppendFormat("SELECT COUNT({0}) FROM public.sys_menu ", column);
+                        sbQuery.AppendFormat("SELECT COUNT({0}) FROM public.sys_user ", column);
                         break;
                     case SQL.Function.Aggregate.Sum:
-                        sbQuery.AppendFormat("SELECT SUM({0}) FROM public.sys_menu ", column);
+                        sbQuery.AppendFormat("SELECT SUM({0}) FROM public.sys_user ", column);
                         break;
                     case SQL.Function.Aggregate.Avg:
-                        sbQuery.AppendFormat("SELECT AVG({0}) FROM public.sys_menu ", column);
+                        sbQuery.AppendFormat("SELECT AVG({0}) FROM public.sys_user ", column);
                         break;
                     default:
                         // do nothing 
@@ -66,24 +66,24 @@ namespace StarterCore.DataAccess
             }
             return _result;
         }
-        public List<SysMenu> GetList()
+        public List<SysUser> GetList()
         {
-            List<SysMenu> tt = new List<SysMenu>();
+            List<SysUser> tt = new List<SysUser>();
             using (IDbConnection conn = Tools.DBConnection(connectionString))
             {
                 try
                 {
                     string sQuery = @"SELECT 
-                                      sys_menu_id, title,
-                                      url, parent_menu_id,
-                                      parent_menu_title, icon_class,
-                                      path, order_seq,
-                                      user_input, user_edit,
-                                      time_input, time_edit
-                                    FROM 
-                                      public.sys_menu ;";
+                                          sys_user_id,    user_id,
+                                          user_name,      email,
+                                          handphone,      is_active,
+                                          company_id,     picture_path,
+                                          user_input,     user_edit,                                          
+                                          time_input,     time_edit
+                                        FROM 
+                                          public.sys_user ;";
                     conn.Open();
-                    tt = conn.Query<SysMenu>(sQuery).ToList();
+                    tt = conn.Query<SysUser>(sQuery).ToList();
                 }
                 catch (Exception ex)
                 {
@@ -96,9 +96,9 @@ namespace StarterCore.DataAccess
             }
             return tt;
         }
-        public List<SysMenu> GetList(int start, int pageSize, string sortName, string sortOrder,string Parameter)
+        public List<SysUser> GetList(int start, int pageSize, string sortName, string sortOrder, string Parameter)
         {
-            List<SysMenu> tt = new List<SysMenu>();
+            List<SysUser> tt = new List<SysUser>();
             using (IDbConnection conn = Tools.DBConnection(connectionString))
             {
                 int startRow = (start + 1);
@@ -109,17 +109,22 @@ namespace StarterCore.DataAccess
                 sbQuery.AppendFormat(" ( ");
                 sbQuery.AppendFormat("    SELECT ");
                 sbQuery.AppendFormat("      ROW_NUMBER() OVER (ORDER BY {0} {1}) AS [row_number], ", sortName, sortOrder);
-                sbQuery.AppendFormat("        sys_menu_id,  title,  url,  parent_menu_id,  parent_menu_title,  icon_class,  path,  order_seq,  user_input,  user_edit,  time_input,  time_edit ");
+                sbQuery.AppendFormat(@"    sys_user_id,    user_id,
+                                          user_name,      email,
+                                          handphone,      is_active,
+                                          company_id,     picture_path,
+                                          user_input,     user_edit,                                          
+                                          time_input,     time_edit     ");
                 sbQuery.AppendFormat("    FROM ");
-                sbQuery.AppendFormat("      public.sys_menu  ");
-                sbQuery.AppendFormat(" {0} ",Parameter);
+                sbQuery.AppendFormat("      public.sys_user  ");
+                sbQuery.AppendFormat(" {0} ", Parameter);
                 sbQuery.AppendFormat(" ) ");
                 sbQuery.AppendFormat(" SELECT * FROM result_set WHERE [row_number] BETWEEN {0} AND {1} ", startRow, endRow);
 
                 try
                 {
                     conn.Open();
-                    tt = conn.Query<SysMenu>(sbQuery.ToString()).ToList<SysMenu>();
+                    tt = conn.Query<SysUser>(sbQuery.ToString()).ToList<SysUser>();
                 }
                 catch (Exception ex)
                 {
@@ -133,16 +138,22 @@ namespace StarterCore.DataAccess
 
             return tt;
         }
-        public SysMenu GetById(int key)
+        public SysUser GetById(int key)
         {
-            SysMenu t = null;
+            SysUser t = null;
             using (IDbConnection conn = Tools.DBConnection(connectionString))
             {
-                string strQuery = "SELECT sys_menu_id,  title,  url,  parent_menu_id,  parent_menu_title,  icon_class,  path,  order_seq,  user_input,  user_edit,  time_input,  time_edit FROM public.sys_menu  WHERE sys_menu_id = @sys_menu_id";
+                string strQuery = @"SELECT sys_user_id,    user_id,
+                                          user_name,      email,
+                                          handphone,      is_active,
+                                          company_id,     picture_path,
+                                          user_input,     user_edit,                                          
+                                          time_input,     time_edit
+                                 FROM public.sys_user  WHERE sys_menu_id = @sys_menu_id";
                 try
                 {
                     conn.Open();
-                    t = conn.Query<SysMenu>(strQuery, new { sys_menu_id = key }).SingleOrDefault();
+                    t = conn.Query<SysUser>(strQuery, new { sys_menu_id = key }).SingleOrDefault();
                 }
                 catch (Exception ex)
                 {
@@ -157,24 +168,31 @@ namespace StarterCore.DataAccess
 
             return t;
         }
-        public bool Save(SysMenu domain)
+        public bool Save(SysUser domain)
         {
             bool result = false;
             using (IDbConnection conn = Tools.DBConnection(connectionString))
             {
                 string sqlQuery = @"INSERT INTO 
-                                      public.sys_menu
-                                    ( title,  url,
-                                      parent_menu_id,  parent_menu_title,
-                                      icon_class,  path,
-                                      order_seq,  user_input,  user_edit
+                                      public.sys_user
+                                    (
+                                      sys_user_id,user_id,
+                                      user_name,email,
+                                      handphone,is_active,
+                                      pwd,company_id,
+                                      picture_path,user_input,
+                                      user_edit,time_input,
+                                      time_edit
                                     )
                                     VALUES (
-                                      @title,  @url,
-                                      @parent_menu_id,  @parent_menu_title,
-                                      @icon_class,  null,
-                                      @order_seq,  @user_input,  @user_edit
-                                    )";
+                                      @sys_user_id,@user_id,
+                                      @user_name,@email,
+                                      @handphone,@is_active,
+                                      @pwd,@company_id,
+                                      @picture_path,@user_input,
+                                      @user_edit,@time_input,
+                                      @time_edit
+                                    );";
                 try
                 {
                     conn.Open();
@@ -192,18 +210,33 @@ namespace StarterCore.DataAccess
             }
             return result;
         }
-        public bool Update(SysMenu domain)
+        public bool Update(SysUser domain)
         {
             int result = 0;
             using (IDbConnection conn = Tools.DBConnection(connectionString))
             {
-                string sqlQuery = "UPDATE public.sys_menu SET title = @title,url = @url,parent_menu_id = @parent_menu_id,parent_menu_title = @parent_menu_title,icon_class = @icon_class,path = @path,order_seq = @order_seq,user_edit = @user_edit,time_edit = @time_edit WHERE sys_menu_id = @sys_menu_id";
-                                //AND xmin::text::integer = @lastupdatestamp";
+                string sqlQuery = @"UPDATE 
+                                  public.sys_user 
+                                SET 
+                                  user_id = @user_id,
+                                  user_name = @user_name,
+                                  email = @email,
+                                  handphone = @handphone,
+                                  is_active = @is_active,
+                                  pwd = @pwd,
+                                  company_id = @company_id,
+                                  picture_path = @picture_path,
+                                  user_input = @user_input,
+                                  user_edit = @user_edit,
+                                  time_input = @time_input,
+                                  time_edit = @time_edit
+                                WHERE sys_user_id = @sys_user_id;";
+                //AND xmin::text::integer = @lastupdatestamp";
 
                 try
                 {
                     conn.Open();
-                    result = conn.Execute(sqlQuery,domain);
+                    result = conn.Execute(sqlQuery, domain);
                 }
                 catch (Exception ex)
                 {
@@ -221,7 +254,7 @@ namespace StarterCore.DataAccess
             int result = 0;
             using (IDbConnection conn = Tools.DBConnection(connectionString))
             {
-                string sqlQuery = "DELETE FROM public.sys_menu WHERE sys_menu_id = @sys_menu_id";
+                string sqlQuery = "DELETE FROM public.sys_user WHERE sys_user_id = @sys_user_id";
                 try
                 {
                     conn.Open();

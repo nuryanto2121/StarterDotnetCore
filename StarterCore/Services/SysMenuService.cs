@@ -60,6 +60,7 @@ namespace StarterCore.Services
                 Model.User_edit = Tools.DecryptString(Model.User_edit);
                 Model.user_input = Tools.DecryptString(Model.user_input);
                 SysMenuRepo.Save(Model);
+                _result.Message = "Data Has been Insert Successfuly.";
             }
             catch (Exception ex)
             {
@@ -76,6 +77,7 @@ namespace StarterCore.Services
                 Model.time_edit = DateTime.Now;
                 Model.User_edit = Tools.DecryptString(Model.User_edit);
                 SysMenuRepo.Update(Model);
+                _result.Message = "Data Has been Update Successfuly.";
             }
             catch (Exception ex)
             {

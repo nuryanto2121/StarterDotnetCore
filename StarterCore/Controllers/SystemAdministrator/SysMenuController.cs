@@ -13,7 +13,8 @@ using StarterCore.Services;
 
 namespace StarterCore.Controllers.SystemAdministrator
 {
-
+    [Route("v1/[controller]")]
+    [ApiController]
     public class SysMenuController : ControllerBase, IAPIController<SysMenu>
     {
         private IConfiguration config;
@@ -24,28 +25,33 @@ namespace StarterCore.Controllers.SystemAdministrator
             sysMenuService = new SysMenuService(configuration);
         }
 
-        [HttpPost("SysMenu/Delete")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Output), 200)]
-        public IActionResult Delete([FromBody] SysMenu Model)
+        public IActionResult Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPost("SysMenu/GetById")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(Output), 200)]
-        public IActionResult GetById([FromBody] SysMenu Model)
+        public IActionResult GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPost("SysMenu/GetList")]
+        [HttpGet("")]
         [ProducesResponseType(typeof(Output), 200)]
-        public IActionResult GetList([FromBody] SysMenu Model)
+        public IActionResult GetList(int id, int page = 0, int page_size = 0, string parameter = "")
         {
-            throw new NotImplementedException();
+            JObject dd = new JObject();
+            dd.Add("id", id);
+            dd.Add("page", page);
+            dd.Add("page_size", page_size);
+            return Ok(dd);
         }
 
-        [HttpPost("SysMenu/Insert")]
+
+        [HttpPost]
         [ProducesResponseType(typeof(Output), 200)]
         public IActionResult Insert([FromBody] SysMenu Model)
         {
@@ -61,11 +67,20 @@ namespace StarterCore.Controllers.SystemAdministrator
             return Ok(output);
         }
 
-        [HttpPost("SysMenu/Update")]
+        [HttpPut]
         [ProducesResponseType(typeof(Output), 200)]
         public IActionResult Update([FromBody] SysMenu Model)
         {
-            throw new NotImplementedException();
+            var output = new Output();
+            try
+            {
+                output = sysMenuService.Update(Model);
+            }
+            catch (Exception ex)
+            {
+                output = Tools.Error(ex);
+            }
+            return Ok(output);
         }
     }
 }

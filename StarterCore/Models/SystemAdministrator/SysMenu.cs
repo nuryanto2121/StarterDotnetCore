@@ -12,18 +12,14 @@ namespace StarterCore.Models
 
         public int sys_menu_id { get; set; }
 
-        [Required(ErrorMessage = "Please enter name"), MaxLength(60)]
+        [Required(ErrorMessage = "Please enter Title"), MaxLength(60)]
         public string title { get; set; }
-       
+        public string url { get; set; }
         public int parent_menu_id { get; set; }
-
-        //public string parent_menu_title { get; set; }
-       
+        public string parent_menu_title { get; set; }
         public string icon_class { get; set; }
-
-        public string path { get; set; }
-
-        [Required]
+        //public string path { get; set; }
+        //[Required]
         public int order_seq { get; set; }
 
         public string user_input { get; set; }
@@ -33,5 +29,6 @@ namespace StarterCore.Models
         public DateTime time_input { get; set; }
 
         public DateTime time_edit { get; set; }
+        public int lastupdatestamp { get; set; }
     }
 }

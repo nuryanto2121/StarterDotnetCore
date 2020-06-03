@@ -16,17 +16,40 @@ namespace StarterCore.Services
     public class AuthServices : IAuthService
     {
         private AuthRepo authRepo;
+        private SysUserRepo UserEpro;
         IConfiguration config;
         private string _Session_Id;
         public AuthServices(IConfiguration Configuration)
         {
             authRepo = new AuthRepo(Tools.ConnectionString(Configuration));
+            UserEpro = new SysUserRepo(Tools.ConnectionString(Configuration));
             config = Configuration;
         }
 
         public Output ChangePassword(ChangePassword Model)
         {
-            throw new NotImplementedException();
+            var _result = new Output();
+            try
+            {
+                if (Model.ConfirmPassword != Model.NewPassword)
+                {
+                    throw new Exception("New Password and Confirm Password must be same.");
+                }
+                Model.CurrentPassword = EncryptionLibrary.EncryptText(Model.CurrentPassword);
+                var dataAuth = authRepo.GetDataAuth(Model.UserId, Model.CurrentPassword);
+                if (dataAuth == null)
+                {
+                    throw new Exception("The user name or password is incorrect.");
+                }
+                dataAuth.pwd = EncryptionLibrary.EncryptText(Model.NewPassword);
+                UserEpro.Update(dataAuth);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return _result;
         }
 
         public Output Login(AuthLogin Model)
@@ -35,7 +58,7 @@ namespace StarterCore.Services
             Dictionary<string, object> ObjOutput = new Dictionary<string, object>();
             try
             {
-                //Model.PassLog = EncryptionLibrary.EncryptText(Model.PassLog);
+                Model.PassLog = EncryptionLibrary.EncryptText(Model.PassLog);
                 var dataAuth = authRepo.GetDataAuth(Model.UserLog, Model.PassLog);
                 if (dataAuth != null)
                 {
