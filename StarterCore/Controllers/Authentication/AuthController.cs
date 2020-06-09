@@ -33,7 +33,7 @@ namespace StarterCore.Controllers.Authentication
             var _result = new Output();
             try
             {
-
+                _result = this.AuthService.ChangePassword(Model);
             }
             catch (Exception ex)
             {
